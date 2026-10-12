@@ -22,9 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
           cache: pip
@@ -44,14 +44,36 @@ jobs:
         run: |
           if [ "${{ inputs.force }}" = "true" ]; then python forecast.py --force; else python forecast.py; fi
 
+      - name: Tiivistelmä huomautuksiksi
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          try:
+              d = json.load(open('docs/huxt_forecast.json'))
+          except Exception as e:
+              print(f"::warning::Tulostiedostoa ei voitu lukea: {e}"); raise SystemExit
+          print(f"::notice::Ajo {d.get('generated')} | jäseniä {d.get('members')} | {d.get('runtime_s')} s | tausta: {'; '.join(d.get('ambient_source') or [])}")
+          for c in d.get('cmes', []):
+              if c.get('hit_pct'):
+                  print(f"::notice::CME {c['id'][:16]} {c['v']:.0f} km/s lon {c['lon']:.0f}: osuma {c['hit_pct']} %, mediaani {c.get('arrival_median')}, 5-95 % {c.get('arrival_p5')} – {c.get('arrival_p95')}, {c.get('speed_at_earth_median')} km/s, {c.get('status')}")
+          PY
+
       - name: Tallenna tulos, jos muuttui
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/huxt_forecast.json
           if git diff --cached --quiet; then
-            echo "Ei muutoksia."
-          else
-            git commit -m "HUXt-ennuste $(date -u +%Y-%m-%dT%H:%MZ)"
-            git push
+            echo "Ei muutoksia."; exit 0
           fi
+          git commit -m "HUXt-ennuste $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do
+            if out=$(git pull --rebase --quiet origin main 2>&1 && git push origin HEAD:main 2>&1); then
+              echo "$out"; exit 0
+            fi
+            echo "::warning::push yritys $i epäonnistui: $(echo "$out" | tr '\n' ' ' | cut -c1-400)"
+            sleep 5
+          done
+          echo "::error::Tuloksen tallennus repoon epäonnistui (ks. varoitukset)"
+          exit 1
