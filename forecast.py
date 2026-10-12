@@ -83,41 +83,95 @@ def collect_cmes(sims, now):
     return sorted(best.values(), key=lambda c: c['t215'])
 
 
-def fetch_ambient(now):
-    """Maan kohdan nopeusaikasarja: mitattu (7 vrk taakse) + WSA-Enlil-ennuste (CME:t poistettu)."""
-    pts, src = [], []
+DIAG = {}   # syötteiden diagnostiikka, tallennetaan tulostiedostoon
+
+
+def warn(msg):
+    print(f'::warning::{msg}')
+    DIAG.setdefault('warnings', []).append(msg)
+
+
+def _hourly(pairs):
+    buckets = {}
+    for t, v in pairs:
+        buckets.setdefault(t.replace(minute=0, second=0, microsecond=0), []).append(v)
+    return sorted((t, float(np.median(v))) for t, v in buckets.items())
+
+
+def fetch_observed(now):
+    """Mitattu aurinkotuulen nopeus L1:ssä (noin 7 vrk taaksepäin), tunnin mediaaneina."""
     try:
         rows = get_json('https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json')
-        hdr = rows[0]; it, iv = hdr.index('time_tag'), hdr.index('speed')
-        obs = [(parse_t(r[it]), float(r[iv])) for r in rows[1:] if r[iv] not in (None, '')]
-        # tuntikeskiarvot, jotta yksittäiset piikit eivät dominoi
-        buckets = {}
-        for t, v in obs:
-            buckets.setdefault(t.replace(minute=0, second=0, microsecond=0), []).append(v)
-        pts += [(t, float(np.median(v))) for t, v in buckets.items()]
-        src.append('SWPC plasma-7-day (mitattu)')
+        DIAG['plasma_header'] = rows[0] if rows else None
+        hdr = [str(h) for h in rows[0]]
+        it, iv = hdr.index('time_tag'), hdr.index('speed')
+        obs = []
+        for r in rows[1:]:
+            try: obs.append((parse_t(str(r[it])), float(r[iv])))
+            except (TypeError, ValueError): pass
+        if len(obs) > 100:
+            return _hourly(obs), 'SWPC plasma-7-day (mitattu)'
+        warn(f'plasma-7-day: vain {len(obs)} kelvollista riviä')
     except Exception as e:
-        print('plasma-7-day epäonnistui:', e)
+        warn(f'plasma-7-day epäonnistui: {type(e).__name__}: {str(e)[:200]}')
+    try:   # varalähde: reaaliaikainen aurinkotuuli (RTSW)
+        rows = get_json('https://services.swpc.noaa.gov/json/rtsw/rtsw_wind_1m.json')
+        DIAG['rtsw_keys'] = sorted(rows[0].keys()) if rows else None
+        obs = []
+        for r in rows:
+            try:
+                if r.get('active') is False: continue
+                obs.append((parse_t(r['time_tag']), float(r['proton_speed'])))
+            except (KeyError, TypeError, ValueError): pass
+        if len(obs) > 100:
+            return _hourly(obs), 'SWPC RTSW (mitattu)'
+        warn(f'rtsw_wind_1m: vain {len(obs)} kelvollista riviä')
+    except Exception as e:
+        warn(f'rtsw_wind_1m epäonnistui: {type(e).__name__}: {str(e)[:200]}')
+    return [], None
+
+
+def fetch_enlil(now, after):
+    """WSA-Enlil-ennuste Maan kohdalla. cloud-kentän merkitys tarkistetaan datasta."""
     try:
         en = get_json('https://services.swpc.noaa.gov/json/enlil_time_series.json')
-        last_obs = max((t for t, _ in pts), default=now - D.timedelta(days=1))
-        fc = []
-        for r in en:
-            try:
-                t = parse_t(r['time_tag']); v = float(r['v_r'])
-                cloud = float(r.get('cloud') or 0)
-            except (KeyError, TypeError, ValueError):
-                continue
-            if t > last_obs and cloud <= 0:   # cloud > 0 = CME-materiaalia Enlil-mallissa
-                fc.append((t, v))
-        pts += fc
-        src.append(f'SWPC WSA-Enlil (enlil_time_series, {len(fc)} pistettä, CME:t poistettu)')
     except Exception as e:
-        print('enlil_time_series epäonnistui:', e)
+        warn(f'enlil_time_series epäonnistui: {type(e).__name__}: {str(e)[:200]}')
+        return [], None
+    rows = []
+    for r in en:
+        try:
+            rows.append((parse_t(r['time_tag']), float(r['v_r']), float(r.get('cloud') or 0)))
+        except (KeyError, TypeError, ValueError):
+            pass
+    if not rows:
+        warn('enlil_time_series: ei kelvollisia rivejä'); return [], None
+    rows.sort()
+    clouds = np.array([c for _, _, c in rows])
+    DIAG['enlil'] = dict(n=len(rows), first=rows[0][0].isoformat(), last=rows[-1][0].isoformat(),
+                         keys=sorted(en[0].keys()), cloud_min=float(clouds.min()), cloud_max=float(clouds.max()),
+                         cloud_frac_pos=round(float((clouds > 0).mean()), 3),
+                         cloud_quantiles=[round(float(q), 4) for q in np.quantile(clouds, [0.1, 0.5, 0.9, 0.99])],
+                         v_quantiles=[round(float(q)) for q in np.quantile([v for _, v, _ in rows], [0.05, 0.5, 0.95])])
+    # cloud-maski vain, jos se näyttää 0/1-merkinnältä ja jättää suurimman osan datasta jäljelle
+    binary = set(np.unique(clouds).round(6)) <= {0.0, 1.0}
+    use_mask = binary and (clouds > 0).mean() < 0.5
+    DIAG['enlil']['cloud_mask_used'] = bool(use_mask)
+    pts = [(t, v) for t, v, c in rows if t > after and not (use_mask and c > 0)]
+    return _hourly(pts), f'SWPC WSA-Enlil (enlil_time_series{", CME:t poistettu" if use_mask else ""})'
+
+
+def fetch_ambient(now):
+    """Maan kohdan nopeusaikasarja: mitattu (7 vrk taakse) + WSA-Enlil-ennuste eteenpäin."""
+    obs, s1 = fetch_observed(now)
+    last_obs = obs[-1][0] if obs else now - D.timedelta(days=1)
+    fc, s2 = fetch_enlil(now, last_obs)
+    pts = obs + fc
+    src = [s for s in (s1, s2) if s]
+    DIAG['ambient_points'] = dict(observed=len(obs), forecast=len(fc))
     if len(pts) < 24:
         raise RuntimeError('Taustatuulen dataa liian vähän')
-    pts.sort()
-    return pts, src
+    return sorted(pts), src
 
 
 # ---------------------------------------------------------------- HUXt
@@ -208,7 +262,7 @@ def main():
     result = dict(generated=now.strftime('%Y-%m-%dT%H:%M:%SZ'), model='HUXt ' + H.get_version(),
                   input_key=key, members=N_MEMBERS, perturbation=PERT, ambient_source=amb_src,
                   note='Kokeellinen ennuste. Tulos on yhtä hyvä kuin syötteet (DONKI-kartio-CME:t ja SWPC:n taustatuuli).',
-                  cmes=[])
+                  cmes=[], diagnostics=DIAG)
     if not cmes:
         print('Ei tuoreita CME:itä.')
         os.makedirs(os.path.dirname(OUT), exist_ok=True)
