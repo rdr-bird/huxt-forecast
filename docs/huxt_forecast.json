@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-12T23:08:35Z",
+ "generated": "2026-10-12T23:13:59Z",
  "model": "HUXt 5.0.3",
  "input_key": "8d93bcdd91a3",
  "members": 500,
@@ -12,7 +12,7 @@
  },
  "ambient_source": [
   "SWPC RTSW (mitattu)",
-  "SWPC WSA-Enlil (enlil_time_series)"
+  "SWPC WSA-Enlil (enlil_time_series, CME:t poistettu)"
  ],
  "note": "Kokeellinen ennuste. Tulos on yhtä hyvä kuin syötteet (DONKI-kartio-CME:t ja SWPC:n taustatuuli).",
  "cmes": [
@@ -27,14 +27,14 @@
    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49013/-1",
    "width": 72.0,
    "hit_pct": 95.4,
-   "arrival_median": "2026-10-11T20:07Z",
-   "arrival_p10": "2026-10-11T15:28Z",
-   "arrival_p90": "2026-10-12T00:44Z",
+   "arrival_median": "2026-10-11T20:13Z",
+   "arrival_p10": "2026-10-11T15:30Z",
+   "arrival_p90": "2026-10-12T01:06Z",
    "arrival_p5": "2026-10-11T14:51Z",
-   "arrival_p95": "2026-10-12T02:01Z",
-   "speed_at_earth_median": 454,
+   "arrival_p95": "2026-10-12T02:28Z",
+   "speed_at_earth_median": 453,
    "deterministic_hit": true,
-   "deterministic_arrival": "2026-10-11T19:57Z",
+   "deterministic_arrival": "2026-10-11T19:58Z",
    "status": "saapunut / ohi"
   },
   {
@@ -76,14 +76,14 @@
    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49030/-1",
    "width": 76.0,
    "hit_pct": 78.8,
-   "arrival_median": "2026-10-12T02:26Z",
-   "arrival_p10": "2026-10-11T22:17Z",
-   "arrival_p90": "2026-10-12T07:18Z",
-   "arrival_p5": "2026-10-11T21:01Z",
-   "arrival_p95": "2026-10-12T08:16Z",
-   "speed_at_earth_median": 497,
+   "arrival_median": "2026-10-12T02:43Z",
+   "arrival_p10": "2026-10-11T22:19Z",
+   "arrival_p90": "2026-10-12T07:55Z",
+   "arrival_p5": "2026-10-11T21:04Z",
+   "arrival_p95": "2026-10-12T08:58Z",
+   "speed_at_earth_median": 496,
    "deterministic_hit": true,
-   "deterministic_arrival": "2026-10-12T01:07Z",
+   "deterministic_arrival": "2026-10-12T01:12Z",
    "status": "saapunut / ohi"
   },
   {
@@ -188,14 +188,14 @@
    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49093/-1",
    "width": 72.0,
    "hit_pct": 64.4,
-   "arrival_median": "2026-10-14T13:38Z",
-   "arrival_p10": "2026-10-14T09:15Z",
-   "arrival_p90": "2026-10-14T18:30Z",
+   "arrival_median": "2026-10-14T13:42Z",
+   "arrival_p10": "2026-10-14T09:16Z",
+   "arrival_p90": "2026-10-14T18:29Z",
    "arrival_p5": "2026-10-14T08:39Z",
-   "arrival_p95": "2026-10-14T19:43Z",
+   "arrival_p95": "2026-10-14T19:44Z",
    "speed_at_earth_median": 676,
    "deterministic_hit": true,
-   "deterministic_arrival": "2026-10-14T11:54Z",
+   "deterministic_arrival": "2026-10-14T12:10Z",
    "status": "tulossa"
   },
   {
@@ -232,19 +232,16 @@
    "hit_pct": 28.8,
    "arrival_median": "2026-10-14T14:49Z",
    "arrival_p10": "2026-10-14T10:12Z",
-   "arrival_p90": "2026-10-14T20:00Z",
-   "arrival_p5": "2026-10-14T09:33Z",
+   "arrival_p90": "2026-10-14T20:02Z",
+   "arrival_p5": "2026-10-14T09:39Z",
    "arrival_p95": "2026-10-14T21:49Z",
-   "speed_at_earth_median": 711,
+   "speed_at_earth_median": 710,
    "deterministic_hit": false,
    "deterministic_arrival": null,
    "status": "tulossa"
   }
  ],
  "diagnostics": {
-  "warnings": [
-   "plasma-7-day epäonnistui: HTTPError: 404 Client Error: Not Found for url: https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json"
-  ],
   "rtsw_keys": [
    "active",
    "alpha_density",
@@ -309,11 +306,12 @@
     500,
     692
    ],
-   "cloud_mask_used": false
+   "cloud_mask_used": true,
+   "masked_frac": 0.072
   },
   "ambient_points": {
    "observed": 25,
-   "forecast": 112
+   "forecast": 101
   }
  },
  "model_start": "2026-10-07T12:00Z",
@@ -429,7 +427,7 @@
   ],
   [
    "2026-10-10T23:29Z",
-   491
+   490
   ],
   [
    "2026-10-11T02:34Z",
@@ -461,55 +459,55 @@
   ],
   [
    "2026-10-12T00:13Z",
-   490
+   489
   ],
   [
    "2026-10-12T03:18Z",
-   513
+   512
   ],
   [
    "2026-10-12T06:24Z",
-   516
+   514
   ],
   [
    "2026-10-12T09:29Z",
-   508
+   505
   ],
   [
    "2026-10-12T12:35Z",
-   496
+   493
   ],
   [
    "2026-10-12T15:40Z",
-   485
+   482
   ],
   [
    "2026-10-12T18:46Z",
-   475
+   471
   ],
   [
    "2026-10-12T21:51Z",
-   468
+   463
   ],
   [
    "2026-10-13T00:57Z",
-   464
+   459
   ],
   [
    "2026-10-13T04:02Z",
-   466
+   461
   ],
   [
    "2026-10-13T07:08Z",
-   476
+   473
   ],
   [
    "2026-10-13T10:13Z",
-   498
+   496
   ],
   [
    "2026-10-13T13:19Z",
-   527
+   526
   ],
   [
    "2026-10-13T16:24Z",
@@ -529,19 +527,19 @@
   ],
   [
    "2026-10-14T04:47Z",
-   648
+   647
   ],
   [
    "2026-10-14T07:52Z",
-   677
+   673
   ],
   [
    "2026-10-14T10:58Z",
-   698
+   694
   ],
   [
    "2026-10-14T14:03Z",
-   704
+   702
   ],
   [
    "2026-10-14T17:09Z",
@@ -549,7 +547,7 @@
   ],
   [
    "2026-10-14T20:14Z",
-   685
+   686
   ],
   [
    "2026-10-14T23:20Z",
@@ -561,7 +559,7 @@
   ],
   [
    "2026-10-15T05:31Z",
-   649
+   650
   ],
   [
    "2026-10-15T08:36Z",
@@ -593,7 +591,7 @@
   ],
   [
    "2026-10-16T06:15Z",
-   560
+   561
   ],
   [
    "2026-10-16T09:20Z",
@@ -649,5 +647,5 @@
   ]
  ],
  "workers": 4,
- "runtime_s": 217.4
+ "runtime_s": 481.5
 }
