@@ -3,7 +3,7 @@ HUXt-ensemble-ennuste Maata kohti tuleville CME:ille.
 
 Syötteet (kaikki julkisia):
   * CME:t:       NASA DONKI, WSA-Enlil-simulaatioiden kartio-CME-syötteet (cmeInputs)
-  * Taustatuuli: NOAA SWPC, mitattu aurinkotuuli (plasma-7-day) + WSA-Enlil-ennuste Maan kohdalla
+  * Taustatuuli: NOAA SWPC, mitattu aurinkotuuli (rtsw_wind_1m) + WSA-Enlil-ennuste Maan kohdalla
                  (enlil_time_series.json, CME-materiaali poistettu cloud-kentän avulla)
 Tulos: docs/huxt_forecast.json
 
@@ -36,6 +36,7 @@ PERT = dict(lon=15.0, lat=15.0, width=0.20, v=0.15, amb_shift=15.0)
 
 NASA_KEY = os.environ.get('NASA_API_KEY', 'DEMO_KEY')
 PROXY = os.environ.get('DONKI_PROXY', 'https://revontulet-jade.vercel.app/api/proxy')
+CLOUD_THRESH = 0.01                # enlil_time_series: cloud-osuus, jonka ylittävät pisteet tulkitaan CME:ksi
 HDRS = {'User-Agent': 'huxt-forecast (github actions)'}
 
 
@@ -100,21 +101,7 @@ def _hourly(pairs):
 
 def fetch_observed(now):
     """Mitattu aurinkotuulen nopeus L1:ssä (noin 7 vrk taaksepäin), tunnin mediaaneina."""
-    try:
-        rows = get_json('https://services.swpc.noaa.gov/products/solar-wind/plasma-7-day.json')
-        DIAG['plasma_header'] = rows[0] if rows else None
-        hdr = [str(h) for h in rows[0]]
-        it, iv = hdr.index('time_tag'), hdr.index('speed')
-        obs = []
-        for r in rows[1:]:
-            try: obs.append((parse_t(str(r[it])), float(r[iv])))
-            except (TypeError, ValueError): pass
-        if len(obs) > 100:
-            return _hourly(obs), 'SWPC plasma-7-day (mitattu)'
-        warn(f'plasma-7-day: vain {len(obs)} kelvollista riviä')
-    except Exception as e:
-        warn(f'plasma-7-day epäonnistui: {type(e).__name__}: {str(e)[:200]}')
-    try:   # varalähde: reaaliaikainen aurinkotuuli (RTSW)
+    try:   # reaaliaikainen aurinkotuuli L1:ssä (RTSW, noin 7 vrk)
         rows = get_json('https://services.swpc.noaa.gov/json/rtsw/rtsw_wind_1m.json')
         DIAG['rtsw_keys'] = sorted(rows[0].keys()) if rows else None
         obs = []
@@ -153,11 +140,12 @@ def fetch_enlil(now, after):
                          cloud_frac_pos=round(float((clouds > 0).mean()), 3),
                          cloud_quantiles=[round(float(q), 4) for q in np.quantile(clouds, [0.1, 0.5, 0.9, 0.99])],
                          v_quantiles=[round(float(q)) for q in np.quantile([v for _, v, _ in rows], [0.05, 0.5, 0.95])])
-    # cloud-maski vain, jos se näyttää 0/1-merkinnältä ja jättää suurimman osan datasta jäljelle
-    binary = set(np.unique(clouds).round(6)) <= {0.0, 1.0}
-    use_mask = binary and (clouds > 0).mean() < 0.5
+    # cloud = CME-materiaalin osuus Enlil-mallissa (jatkuva 0...1). Poistetaan selvästi CME:n täyttämät
+    # kohdat, jotta SWPC:n oma CME-mallinnus ei laskeudu taustatuuleen (muuten sama CME laskettaisiin kahdesti).
+    use_mask = (clouds > CLOUD_THRESH).mean() < 0.5
     DIAG['enlil']['cloud_mask_used'] = bool(use_mask)
-    pts = [(t, v) for t, v, c in rows if t > after and not (use_mask and c > 0)]
+    DIAG['enlil']['masked_frac'] = round(float((clouds > CLOUD_THRESH).mean()), 3)
+    pts = [(t, v) for t, v, c in rows if t > after and not (use_mask and c > CLOUD_THRESH)]
     return _hourly(pts), f'SWPC WSA-Enlil (enlil_time_series{", CME:t poistettu" if use_mask else ""})'
 
 

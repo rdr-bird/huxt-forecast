@@ -8,8 +8,8 @@ Kokeellinen CME-saapumisennuste Maahan [HUXt](https://pypi.org/project/huxt/)-au
 1. **CME:t**: NASA DONKI:n WSA-Enlil-simulaatioiden kartio-CME-syötteet (`cmeInputs`):
    suunta, leveys, nopeus ja aika 21,5 auringonsäteen kohdalla. Mukaan otetaan viimeisen 5 vrk CME:t,
    jotka ovat Maan puolella (|pituus| ≤ 90°) ja voivat vielä olla matkalla.
-2. **Taustatuuli**: NOAA SWPC:n mitattu aurinkotuuli (`plasma-7-day`) ja WSA-Enlil-ennuste Maan kohdalla
-   (`enlil_time_series.json`, CME-materiaali poistettu `cloud`-kentän avulla). Aikasarja muunnetaan
+2. **Taustatuuli**: NOAA SWPC:n mitattu aurinkotuuli (`json/rtsw/rtsw_wind_1m.json`) ja WSA-Enlil-ennuste Maan kohdalla
+   (`enlil_time_series.json`). Aikasarja muunnetaan
    Carringtonin pituusasteprofiiliksi ja kuvataan HUXtin sisäreunalle (21,5 Rs).
 3. **Ensemble**: oletuksena 500 ajoa. Jokaisessa CME:n suuntaa (±15°), leveyttä (±20 %), nopeutta (±15 %)
    ja taustatuulta (±15°) vaihdellaan satunnaisesti.
