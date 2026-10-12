@@ -1,0 +1,19 @@
+# HUXt asennetaan ilman riippuvuuksia (pip install --no-deps huxt), koska sen
+# "sunpy[all]"-riippuvuus vetää mukaan paketteja, jotka eivät käänny CI:ssä.
+# Alla on se osa, jota ennusteen laskenta oikeasti tarvitsee.
+huxt==5.0.3
+numpy>=2.0
+scipy
+astropy
+h5py
+numba
+pandas
+matplotlib
+tqdm
+requests
+appdirs
+httplib2
+netcdf4
+dtaidistance
+sunpy[net,timeseries]
+mpl_animators
