@@ -17,15 +17,6 @@ Kokeellinen CME-saapumisennuste Maahan [HUXt](https://pypi.org/project/huxt/)-au
 
 Ensemble ajetaan vain, kun CME-lista muuttuu tai edellisestä ajosta on yli 12 h. Muulloin työ päättyy heti.
 
-## Asetukset (GitHub → Settings)
-
-| Mikä | Missä | Pakollinen |
-|---|---|---|
-| `NASA_API_KEY` | Secrets → Actions | Suositus. Ilmainen avain: https://api.nasa.gov (muuten `DEMO_KEY`, jolla on tiukka raja) |
-| `HUXT_MEMBERS` | Variables → Actions | Ei. Oletus 500 |
-
-Repon pitää olla **julkinen**, jolloin Actions-minuutit ovat ilmaisia.
-
 ## Testaus paikallisesti
 
 ```bash
