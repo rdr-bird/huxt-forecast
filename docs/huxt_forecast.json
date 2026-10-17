@@ -1,7 +1,7 @@
 {
- "generated": "2026-10-17T10:43:36Z",
+ "generated": "2026-10-17T15:34:18Z",
  "model": "HUXt 5.0.3",
- "input_key": "aed3774bb141",
+ "input_key": "e4f7778cd2f0",
  "members": 500,
  "perturbation": {
   "lon": 15.0,
@@ -40,13 +40,13 @@
    "sim": "WSA-ENLIL/49141/1",
    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49141/-1",
    "width": 58.0,
-   "hit_pct": 36.6,
-   "arrival_median": "2026-10-21T10:50Z",
-   "arrival_p10": "2026-10-21T00:16Z",
-   "arrival_p90": "2026-10-22T00:58Z",
-   "arrival_p5": "2026-10-20T21:55Z",
-   "arrival_p95": "2026-10-22T02:17Z",
-   "speed_at_earth_median": 409,
+   "hit_pct": 44.0,
+   "arrival_median": "2026-10-21T09:54Z",
+   "arrival_p10": "2026-10-21T01:26Z",
+   "arrival_p90": "2026-10-22T00:00Z",
+   "arrival_p5": "2026-10-20T23:40Z",
+   "arrival_p95": "2026-10-22T01:52Z",
+   "speed_at_earth_median": 411,
    "deterministic_hit": false,
    "deterministic_arrival": null,
    "status": "tulossa"
@@ -61,6 +61,20 @@
    "sim": "WSA-ENLIL/49145/1",
    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49145/-1",
    "width": 60.0,
+   "hit_pct": null,
+   "arrival_median": null,
+   "status": "ei kohti Maata"
+  },
+  {
+   "id": "2026-10-17T02:48:00-CME-001",
+   "start": "2026-10-17T02:48Z",
+   "t215": "2026-10-17T06:32:00+00:00",
+   "lon": -99.0,
+   "lat": -4.0,
+   "v": 1048.0,
+   "sim": "WSA-ENLIL/49152/1",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49152/-1",
+   "width": 76.0,
    "hit_pct": null,
    "arrival_median": null,
    "status": "ei kohti Maata"
@@ -136,79 +150,79 @@
   },
   "ambient_points": {
    "observed": 25,
-   "forecast": 111
+   "forecast": 106
   }
  },
  "model_start": "2026-10-16T14:00Z",
- "ambient_coverage_days": 5.6,
+ "ambient_coverage_days": 5.4,
  "earth_speed_deterministic": [
   [
    "2026-10-16T14:00Z",
-   451
-  ],
-  [
-   "2026-10-16T17:05Z",
-   450
-  ],
-  [
-   "2026-10-16T20:11Z",
-   449
-  ],
-  [
-   "2026-10-16T23:16Z",
    448
   ],
   [
-   "2026-10-17T02:22Z",
+   "2026-10-16T17:05Z",
+   447
+  ],
+  [
+   "2026-10-16T20:11Z",
    446
   ],
   [
+   "2026-10-16T23:16Z",
+   444
+  ],
+  [
+   "2026-10-17T02:22Z",
+   441
+  ],
+  [
    "2026-10-17T05:27Z",
-   443
+   438
   ],
   [
    "2026-10-17T08:33Z",
-   440
+   434
   ],
   [
    "2026-10-17T11:38Z",
-   435
+   430
   ],
   [
    "2026-10-17T14:44Z",
-   429
+   425
   ],
   [
    "2026-10-17T17:49Z",
-   423
+   420
   ],
   [
    "2026-10-17T20:55Z",
-   417
+   414
   ],
   [
    "2026-10-18T00:00Z",
-   410
+   409
   ],
   [
    "2026-10-18T03:06Z",
-   404
+   403
   ],
   [
    "2026-10-18T06:11Z",
-   398
+   397
   ],
   [
    "2026-10-18T09:17Z",
-   392
+   391
   ],
   [
    "2026-10-18T12:22Z",
-   386
+   385
   ],
   [
    "2026-10-18T15:28Z",
-   380
+   379
   ],
   [
    "2026-10-18T18:33Z",
@@ -325,8 +339,12 @@
   [
    "2026-10-22T09:08Z",
    509
+  ],
+  [
+   "2026-10-22T12:13Z",
+   509
   ]
  ],
  "workers": 4,
- "runtime_s": 45.0
+ "runtime_s": 48.0
 }
