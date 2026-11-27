@@ -1,7 +1,7 @@
 {
- "generated": "2026-11-27T12:17:28Z",
+ "generated": "2026-11-27T21:25:58Z",
  "model": "HUXt 5.0.3",
- "input_key": "7c40ed070dc4",
+ "input_key": "5f9836e2bf1e",
  "members": 500,
  "perturbation": {
   "lon": 15.0,
@@ -16,20 +16,6 @@
  ],
  "note": "Kokeellinen ennuste. Tulos on yhtä hyvä kuin syötteet (DONKI-kartio-CME:t ja SWPC:n taustatuuli).",
  "cmes": [
-  {
-   "id": "2026-11-22T07:48:00-CME-001",
-   "start": "2026-11-22T07:48Z",
-   "t215": "2026-11-22T13:06:00+00:00",
-   "lon": -65.0,
-   "lat": 24.0,
-   "v": 652.0,
-   "sim": "WSA-ENLIL/49708/1",
-   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49708/-1",
-   "width": 68.0,
-   "hit_pct": null,
-   "arrival_median": null,
-   "status": "jo ohi (ei ajettu)"
-  },
   {
    "id": "2026-11-25T00:00:00-CME-001",
    "start": "2026-11-25T00:00Z",
@@ -82,13 +68,13 @@
    "sim": "WSA-ENLIL/49753/1",
    "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49753/-1",
    "width": 26.0,
-   "hit_pct": 18.8,
-   "arrival_median": "2026-11-29T05:14Z",
-   "arrival_p10": "2026-11-28T22:55Z",
-   "arrival_p90": "2026-11-29T23:47Z",
-   "arrival_p5": "2026-11-28T20:40Z",
-   "arrival_p95": "2026-11-30T02:24Z",
-   "speed_at_earth_median": 494,
+   "hit_pct": 17.4,
+   "arrival_median": "2026-11-29T06:50Z",
+   "arrival_p10": "2026-11-28T22:25Z",
+   "arrival_p90": "2026-11-29T22:06Z",
+   "arrival_p5": "2026-11-28T20:57Z",
+   "arrival_p95": "2026-11-30T02:02Z",
+   "speed_at_earth_median": 497,
    "deterministic_hit": false,
    "deterministic_arrival": null,
    "status": "tulossa"
@@ -218,6 +204,48 @@
    "deterministic_hit": false,
    "deterministic_arrival": null,
    "status": "ei osumaa"
+  },
+  {
+   "id": "2026-11-27T04:28:00-CME-001",
+   "start": "2026-11-27T04:28Z",
+   "t215": "2026-11-27T13:12:00+00:00",
+   "lon": -58.0,
+   "lat": 19.0,
+   "v": 342.0,
+   "sim": "WSA-ENLIL/49822/1",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49822/-1",
+   "width": 24.0,
+   "hit_pct": 0.0,
+   "arrival_median": null,
+   "arrival_p10": null,
+   "arrival_p90": null,
+   "arrival_p5": null,
+   "arrival_p95": null,
+   "speed_at_earth_median": null,
+   "deterministic_hit": false,
+   "deterministic_arrival": null,
+   "status": "ei osumaa"
+  },
+  {
+   "id": "2026-11-27T12:48:00-CME-001",
+   "start": "2026-11-27T12:48Z",
+   "t215": "2026-11-27T17:49:00+00:00",
+   "lon": -50.0,
+   "lat": 16.0,
+   "v": 587.0,
+   "sim": "WSA-ENLIL/49822/1",
+   "link": "https://ccmc.gsfc.nasa.gov/DONKI/view/WSA-ENLIL/49822/-1",
+   "width": 36.0,
+   "hit_pct": 0.0,
+   "arrival_median": null,
+   "arrival_p10": null,
+   "arrival_p90": null,
+   "arrival_p5": null,
+   "arrival_p95": null,
+   "speed_at_earth_median": null,
+   "deterministic_hit": false,
+   "deterministic_arrival": null,
+   "status": "ei osumaa"
   }
  ],
  "diagnostics": {
@@ -290,127 +318,127 @@
   },
   "ambient_points": {
    "observed": 25,
-   "forecast": 109
+   "forecast": 100
   }
  },
  "model_start": "2026-11-24T18:00Z",
- "ambient_coverage_days": 5.5,
+ "ambient_coverage_days": 5.1,
  "earth_speed_deterministic": [
   [
    "2026-11-24T18:00Z",
-   337
+   322
   ],
   [
    "2026-11-24T21:05Z",
-   336
-  ],
-  [
-   "2026-11-25T00:11Z",
-   334
-  ],
-  [
-   "2026-11-25T03:16Z",
-   332
-  ],
-  [
-   "2026-11-25T06:22Z",
-   331
-  ],
-  [
-   "2026-11-25T09:27Z",
-   329
-  ],
-  [
-   "2026-11-25T12:33Z",
-   328
-  ],
-  [
-   "2026-11-25T15:38Z",
-   326
-  ],
-  [
-   "2026-11-25T18:44Z",
-   325
-  ],
-  [
-   "2026-11-25T21:49Z",
-   323
-  ],
-  [
-   "2026-11-26T00:55Z",
    321
   ],
   [
-   "2026-11-26T04:00Z",
+   "2026-11-25T00:11Z",
    319
   ],
   [
-   "2026-11-26T07:06Z",
+   "2026-11-25T03:16Z",
    317
   ],
   [
-   "2026-11-26T10:11Z",
+   "2026-11-25T06:22Z",
    316
+  ],
+  [
+   "2026-11-25T09:27Z",
+   314
+  ],
+  [
+   "2026-11-25T12:33Z",
+   312
+  ],
+  [
+   "2026-11-25T15:38Z",
+   311
+  ],
+  [
+   "2026-11-25T18:44Z",
+   309
+  ],
+  [
+   "2026-11-25T21:49Z",
+   307
+  ],
+  [
+   "2026-11-26T00:55Z",
+   306
+  ],
+  [
+   "2026-11-26T04:00Z",
+   304
+  ],
+  [
+   "2026-11-26T07:06Z",
+   302
+  ],
+  [
+   "2026-11-26T10:11Z",
+   301
   ],
   [
    "2026-11-26T13:17Z",
-   314
+   299
   ],
   [
    "2026-11-26T16:22Z",
-   314
+   298
   ],
   [
    "2026-11-26T19:28Z",
-   316
+   297
   ],
   [
    "2026-11-26T22:33Z",
-   326
+   297
   ],
   [
    "2026-11-27T01:39Z",
-   356
+   297
   ],
   [
    "2026-11-27T04:44Z",
-   416
+   300
   ],
   [
    "2026-11-27T07:50Z",
-   474
+   305
   ],
   [
    "2026-11-27T10:55Z",
-   511
+   317
   ],
   [
    "2026-11-27T14:01Z",
-   537
+   355
   ],
   [
    "2026-11-27T17:06Z",
-   557
+   443
   ],
   [
    "2026-11-27T20:12Z",
-   573
+   520
   ],
   [
    "2026-11-27T23:18Z",
-   586
+   561
   ],
   [
    "2026-11-28T02:23Z",
-   595
+   584
   ],
   [
    "2026-11-28T05:29Z",
-   601
+   597
   ],
   [
    "2026-11-28T08:34Z",
-   602
+   601
   ],
   [
    "2026-11-28T11:40Z",
@@ -434,7 +462,7 @@
   ],
   [
    "2026-11-29T03:07Z",
-   540
+   541
   ],
   [
    "2026-11-29T06:13Z",
@@ -494,7 +522,7 @@
   ],
   [
    "2026-12-01T01:30Z",
-   411
+   410
   ],
   [
    "2026-12-01T04:36Z",
@@ -510,7 +538,7 @@
   ],
   [
    "2026-12-01T13:52Z",
-   520
+   519
   ],
   [
    "2026-12-01T16:58Z",
@@ -538,9 +566,21 @@
   ],
   [
    "2026-12-02T11:31Z",
-   576
+   575
+  ],
+  [
+   "2026-12-02T14:36Z",
+   574
+  ],
+  [
+   "2026-12-02T17:42Z",
+   572
+  ],
+  [
+   "2026-12-02T20:47Z",
+   571
   ]
  ],
  "workers": 4,
- "runtime_s": 172.5
+ "runtime_s": 278.6
 }
